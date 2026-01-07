@@ -1,0 +1,2 @@
+cd publisher && java -Xdebug -Denv -XX:MaxPermSize=256M -Xnoagent -Xms512M -Xmx2048M -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=30405 -jar aem-publish-p4503.jar -r publish,aicddev -nofork -gui &
+#-XX:-UseSplitVerifier
