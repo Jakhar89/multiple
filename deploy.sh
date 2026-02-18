@@ -7,7 +7,7 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 white=$'\e[0m'
 reset="tput sgr0"
-names='poc retail mym QUIT-Select-this-to-quit runScript chromeDebug'
+names='git QUIT-Select-this-to-quit runScript chromeDebug'
 
 PS3=$grn'Select character: '
 $reset
@@ -35,7 +35,8 @@ select name in $names; do
                 echo "Do you want to:"
                 echo "1. Build"
                 echo "2. Build and Deploy"
-                read -p "Enter your choice (1 or 2): " choice
+                echo "3. Build and Deploy on Publisher"
+                read -p "Enter your choice (1, 2 or 3): " choice
                 if [ "$choice" == "1" ]; then
                     echo "${mag}Performing Maven build..."
                     mvn clean install
@@ -46,6 +47,14 @@ select name in $names; do
                     else
                         echo "${mag}Performing Maven build and deploy..."
                         mvn clean install -PautoInstallPackage -DskipTests=true
+                    fi
+                elif [ "$choice" == "3" ]; then
+                    if [ -f "all/pom.xml" ]; then
+                        echo "${mag}Performing Maven build and deploy on Publisher (all package)..."
+                        mvn clean install -PautoInstallSinglePackagePublish -DskipTests=true
+                    else
+                        echo "${mag}Performing Maven build and deploy on Publisher..."
+                        mvn clean install -PautoInstallPackagePublish -DskipTests=true
                     fi
                 else
                     echo "${red}Invalid choice. Skipping..."
