@@ -36,7 +36,8 @@ select name in $names; do
                 echo "1. Build"
                 echo "2. Build and Deploy"
                 echo "3. Build and Deploy on Publisher"
-                read -p "Enter your choice (1, 2 or 3): " choice
+                echo "4. Build and Deploy on Both (Author + Publisher)"
+                read -p "Enter your choice (1, 2, 3 or 4): " choice
                 if [ "$choice" == "1" ]; then
                     echo "${mag}Performing Maven build..."
                     mvn clean install
@@ -53,6 +54,18 @@ select name in $names; do
                         echo "${mag}Performing Maven build and deploy on Publisher (all package)..."
                         mvn clean install -PautoInstallSinglePackagePublish -DskipTests=true
                     else
+                        echo "${mag}Performing Maven build and deploy on Publisher..."
+                        mvn clean install -PautoInstallPackagePublish -DskipTests=true
+                    fi
+                elif [ "$choice" == "4" ]; then
+                   if [ -f "all/pom.xml" ]; then
+                        echo "${mag}Performing Maven build and deploy on Author (all package)..."
+                        mvn clean install -PautoInstallSinglePackage -DskipTests=true
+                        echo "${mag}Performing Maven build and deploy on Publisher (all package)..."
+                        mvn clean install -PautoInstallSinglePackagePublish -DskipTests=true
+                    else
+                        echo "${mag}Performing Maven build and deploy on Author..."
+                        mvn clean install -PautoInstallPackage -DskipTests=true
                         echo "${mag}Performing Maven build and deploy on Publisher..."
                         mvn clean install -PautoInstallPackagePublish -DskipTests=true
                     fi
