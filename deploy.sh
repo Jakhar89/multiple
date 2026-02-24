@@ -7,7 +7,7 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 white=$'\e[0m'
 reset="tput sgr0"
-names='git QUIT-Select-this-to-quit runScript chromeDebug'
+names='git QUIT-Select-this-to-quit runScript chromeDebug go-to-initial'
 
 PS3=$grn'Select character: '
 $reset
@@ -92,6 +92,11 @@ select name in $names; do
     if [ "$name" == 'chromeDebug' ]; then
         echo 'Starting Chrome in Debug Mode with Port 9222'
         "C:/Program Files/Google/Chrome/Application/chrome.exe" --remote-debugging-port=9222 &
+    fi
+
+    if [ "$name" == 'go-to-initial' ]; then
+        echo "${grn}Launching initial.sh..."
+        bash "$(dirname "$0")/initial.sh"
     fi
 
     $reset
